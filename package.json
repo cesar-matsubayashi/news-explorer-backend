@@ -19,8 +19,11 @@
   },
   "homepage": "https://github.com/cesar-matsubayashi/news-explorer-backend#readme",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "eslint": "^9.21.0",
     "express": "^4.21.2",
-    "nodemon": "^3.1.9"
+    "mongoose": "^8.10.2",
+    "nodemon": "^3.1.9",
+    "validator": "^13.12.0"
   }
 }
