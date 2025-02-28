@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const { errors } = require("celebrate");
 const usersPublic = require("./routes/userPublic");
 const usersPrivate = require("./routes/userPrivate");
+const articles = require("./routes/article");
 const auth = require("./middleware/auth");
 
 const { PORT = 3000, NODE_ENV } = process.env;
@@ -22,6 +23,7 @@ app.use("/users", usersPublic);
 app.use(auth);
 
 app.use("/users", usersPrivate);
+app.use("/articles", articles);
 
 app.get("*", (req, res) => {
   res.status(404).send({ message: "A solicitação não foi encontrada" });
