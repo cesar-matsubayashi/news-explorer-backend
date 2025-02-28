@@ -5,9 +5,14 @@ const userAuth = require("./routes/auth");
 const users = require("./routes/user");
 const articles = require("./routes/article");
 const auth = require("./middleware/auth");
+const { requestLogger, errorLogger } = require("./middleware/logger");
+const cors = require("cors");
 
 const { PORT = 3000, NODE_ENV } = process.env;
 const app = express();
+
+app.use(cors());
+app.options("*", cors());
 
 if (NODE_ENV !== "test") {
   mongoose.connect("mongodb://localhost:27017/newsexplorer");
@@ -17,6 +22,8 @@ if (NODE_ENV !== "test") {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(requestLogger);
 
 app.use("/", userAuth);
 
@@ -35,6 +42,7 @@ if (NODE_ENV !== "test") {
   });
 }
 
+app.use(errorLogger);
 app.use(errors());
 
 app.use((err, req, res, next) => {
