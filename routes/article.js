@@ -1,7 +1,11 @@
 const router = require("express").Router();
 const validator = require("validator");
 const { celebrate, Joi } = require("celebrate");
-const { creatArticle, getArticles } = require("../controllers/article");
+const {
+  creatArticle,
+  getArticles,
+  deleteArticle,
+} = require("../controllers/article");
 
 const validateUrl = (value, helpers) => {
   if (validator.isURL(value, { require_protocol: true })) {
@@ -30,5 +34,15 @@ router.post(
 );
 
 router.get("/", getArticles);
+
+router.delete(
+  "/:articleId",
+  celebrate({
+    params: Joi.object().keys({
+      articleId: Joi.string().alphanum().length(24).required(),
+    }),
+  }),
+  deleteArticle
+);
 
 module.exports = router;

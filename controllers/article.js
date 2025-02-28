@@ -1,5 +1,6 @@
 const NotFoundError = require("../errors/NotFoundError");
 const ValidationError = require("../errors/ValidationError");
+const ForbiddenError = require("../errors/ForbiddenError");
 const Article = require("../models/article");
 
 module.exports.creatArticle = (req, res, next) => {
@@ -46,5 +47,23 @@ module.exports.getArticles = (req, res, next) => {
       throw new NotFoundError("Recurso requisitado não encontrado");
     })
     .then((article) => res.send(article))
+    .catch(next);
+};
+
+module.exports.deleteArticle = (req, res, next) => {
+  Article.findById(req.params.articleId)
+    .orFail(() => {
+      throw new NotFoundError("Recurso requisitado não encontrado");
+    })
+    .then((article) => {
+      if (article.owner.toString() !== req.user._id) {
+        throw new ForbiddenError("Permissão negada para o recurso requisitado");
+      }
+
+      return Article.findByIdAndDelete(article._id);
+    })
+    .then((deleted) => {
+      res.send(deleted);
+    })
     .catch(next);
 };
