@@ -10,19 +10,27 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  text: {
+  description: {
     type: String,
     required: true,
   },
-  date: {
+  content: {
     type: String,
     required: true,
   },
-  fonte: {
+  publishedAt: {
     type: String,
     required: true,
   },
-  link: {
+  source: {
+    type: String,
+    required: true,
+  },
+  author: {
+    type: String,
+    required: true,
+  },
+  url: {
     type: String,
     required: true,
     validate: {
@@ -32,7 +40,7 @@ const articleSchema = new mongoose.Schema({
       message: "O link informado não é válido",
     },
   },
-  image: {
+  urlToImage: {
     type: String,
     required: true,
     validate: {
