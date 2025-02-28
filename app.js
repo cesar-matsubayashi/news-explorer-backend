@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv').config()
 const mongoose = require("mongoose");
 const { errors } = require("celebrate");
 const userAuth = require("./routes/auth");
@@ -8,16 +9,16 @@ const auth = require("./middleware/auth");
 const { requestLogger, errorLogger } = require("./middleware/logger");
 const cors = require("cors");
 
-const { PORT = 3000, NODE_ENV } = process.env;
+const { PORT = 3000, NODE_ENV, DB_URI } = process.env;
 const app = express();
 
 app.use(cors());
 app.options("*", cors());
 
-if (NODE_ENV !== "test") {
-  mongoose.connect("mongodb://localhost:27017/newsexplorer");
+if (NODE_ENV === "test") {
+  mongoose.connect(`${DB_URI}test`);
 } else {
-  mongoose.connect("mongodb://localhost:27017/newsexplorertest");
+  mongoose.connect(DB_URI);
 }
 
 app.use(express.json());
