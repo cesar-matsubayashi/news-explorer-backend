@@ -9,14 +9,14 @@ afterAll(() => {
   return mongoose.disconnect();
 });
 
-describe("Requests public users endpoint", () => {
+describe("Requests auth users endpoint", () => {
   afterEach(() => User.deleteMany({}));
 
-  it("POST /users should create a user", () => {
+  it("POST /signup should create a user", () => {
     const { name, email, password } = fixtures[1].user;
 
     return request
-      .post("/users")
+      .post("/signup")
       .send({ email, password, name })
       .then((response) => {
         expect(response.status).toBe(200);
@@ -27,17 +27,17 @@ describe("Requests public users endpoint", () => {
       });
   });
 
-  it("POST /users/login should authenticate a user", async () => {
+  it("POST /signin should authenticate a user", async () => {
     const { name, email, password } = fixtures[0].user;
 
-    await request.post("/users").send({
+    await request.post("/signup").send({
       email,
       password,
       name,
     });
 
     return request
-      .post("/users/login")
+      .post("/signin")
       .send({
         email,
         password,

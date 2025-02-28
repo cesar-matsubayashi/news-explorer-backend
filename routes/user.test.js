@@ -7,19 +7,19 @@ const request = supertest(app);
 let token;
 
 beforeAll(async () => {
-  await request.post("/users").send({
+  await request.post("/signup").send({
     email: fixtures[0].user.email,
     password: fixtures[0].user.password,
     name: fixtures[0].user.name,
   });
 
-  await request.post("/users").send({
+  await request.post("/signup").send({
     email: fixtures[1].user.email,
     password: fixtures[1].user.password,
     name: fixtures[1].user.name,
   });
 
-  const response = await request.post("/users/login").send({
+  const response = await request.post("/signin").send({
     email: fixtures[1].user.email,
     password: fixtures[1].user.password,
   });

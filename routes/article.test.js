@@ -13,8 +13,8 @@ let owner;
 beforeAll(async () => {
   const { email, password, name } = userFixtures[1].user;
 
-  await request.post("/users").send({ email, password, name });
-  const response = await request.post("/users/login").send({ email, password });
+  await request.post("/signup").send({ email, password, name });
+  const response = await request.post("/signin").send({ email, password });
 
   token = response.body.token;
   owner = jwt.verify(token, "dev-secret");
@@ -286,10 +286,8 @@ describe("Requests article endpoint", () => {
 
     const { email, password, name } = userFixtures[0].user;
 
-    await request.post("/users").send({ email, password, name });
-    const response = await request
-      .post("/users/login")
-      .send({ email, password });
+    await request.post("/signup").send({ email, password, name });
+    const response = await request.post("/signin").send({ email, password });
 
     const token2 = response.body.token;
 
@@ -425,10 +423,10 @@ describe("Requests article endpoint", () => {
 
     const { email, password, name } = userFixtures[0].user;
 
-    await request.post("/users").send({ email, password, name });
+    await request.post("/signup").send({ email, password, name });
 
     await request
-      .post("/users/login")
+      .post("/signin")
       .send({ email, password })
       .then((response) => {
         token2 = response.body.token;

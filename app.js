@@ -1,8 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const { errors } = require("celebrate");
-const usersPublic = require("./routes/userPublic");
-const usersPrivate = require("./routes/userPrivate");
+const userAuth = require("./routes/auth");
+const users = require("./routes/user");
 const articles = require("./routes/article");
 const auth = require("./middleware/auth");
 
@@ -18,11 +18,11 @@ if (NODE_ENV !== "test") {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/users", usersPublic);
+app.use("/", userAuth);
 
 app.use(auth);
 
-app.use("/users", usersPrivate);
+app.use("/users", users);
 app.use("/articles", articles);
 
 app.get("*", (req, res) => {
