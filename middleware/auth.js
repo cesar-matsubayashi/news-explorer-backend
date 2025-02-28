@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const AuthError = require("../errors/AuthError");
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -6,7 +7,7 @@ module.exports = (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    return res.status(401).send({ message: "Autorização necessária" });
+    return next(new AuthError("Autorização necessária"));
   }
 
   const token = authorization;
@@ -18,7 +19,7 @@ module.exports = (req, res, next) => {
       NODE_ENV === "production" ? JWT_SECRET : "dev-secret"
     );
   } catch (err) {
-    return res.status(401).send({ message: "Autorização necessária" });
+    return next(new AuthError("Autorização necessária"));
   }
 
   req.user = payload;
