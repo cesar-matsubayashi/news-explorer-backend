@@ -24,7 +24,7 @@ beforeAll(async () => {
     password: fixtures[1].user.password,
   });
 
-  token = response._body.token;
+  token = response.body.token;
 });
 
 afterAll(async () => {
@@ -39,7 +39,7 @@ describe("Requests private users endpoint", () => {
       .set("Authorization", token)
       .then((response) => {
         expect(response.status).toBe(200);
-        expect(response._body).toMatchObject([
+        expect(response.body).toMatchObject([
           {
             email: fixtures[0].user.email,
             name: fixtures[0].user.name,
@@ -58,7 +58,7 @@ describe("Requests private users endpoint", () => {
       .set("Authorization", token)
       .then((response) => {
         expect(response.status).toBe(200);
-        expect(response._body).toMatchObject({
+        expect(response.body).toMatchObject({
           email: fixtures[1].user.email,
           name: fixtures[1].user.name,
         });

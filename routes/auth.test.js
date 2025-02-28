@@ -20,7 +20,7 @@ describe("Requests auth users endpoint", () => {
       .send({ email, password, name })
       .then((response) => {
         expect(response.status).toBe(200);
-        expect(response._body).toMatchObject({
+        expect(response.body).toMatchObject({
           email,
           name,
         });
