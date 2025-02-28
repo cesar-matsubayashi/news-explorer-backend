@@ -1,9 +1,6 @@
 module.exports = [
   {
-    source: {
-      id: "the-verge",
-      name: "The Verge",
-    },
+    source: "The Verge",
     author: "Andrew J. Hawkins",
     title: "Volvo’s ES90 sedan will be built with a Nvidia supercomputer",
     description:
@@ -17,10 +14,7 @@ module.exports = [
     keyword: "car",
   },
   {
-    source: {
-      id: "the-verge",
-      name: "The Verge",
-    },
+    source: "The Verge",
     author: "Andrew J. Hawkins",
     title: "The Cybertruck is the latest Tesla to score a 5-star crash rating",
     description:
@@ -34,10 +28,7 @@ module.exports = [
     keyword: "car",
   },
   {
-    source: {
-      id: null,
-      name: "Yahoo Entertainment",
-    },
+    source: "Yahoo Entertainment",
     author: "Kris Holt",
     title:
       "Samsung's Digital Key technology now works with Volvo and Polestar EVs",
@@ -51,10 +42,7 @@ module.exports = [
     keyword: "car",
   },
   {
-    source: {
-      id: null,
-      name: "BBC News",
-    },
+    source: "BBC News",
     author: null,
     title: "Cryptocurrency theft of £1.1bn could be biggest ever",
     description:
@@ -68,10 +56,7 @@ module.exports = [
     keyword: "bitcoin",
   },
   {
-    source: {
-      id: "the-verge",
-      name: "The Verge",
-    },
+    source: "The Verge",
     author: "Chris Welch",
     title: "8 important things to know about the iPhone 16E",
     description:
@@ -85,10 +70,7 @@ module.exports = [
     keyword: "smartphone",
   },
   {
-    source: {
-      id: null,
-      name: "Hackaday",
-    },
+    source: "Hackaday",
     author: "Lewin Day",
     title: "3D Print Yourself A Split Flap Display",
     description:
@@ -102,10 +84,7 @@ module.exports = [
     keyword: "3d print",
   },
   {
-    source: {
-      id: null,
-      name: "Hackaday",
-    },
+    source: "Hackaday",
     author: "Lewin Day",
     title: "DIY Yagi Antenna Sends LoRa Signals Farther",
     description:
@@ -119,10 +98,6 @@ module.exports = [
     keyword: "3d print",
   },
   {
-    source: {
-      id: null,
-      name: "Gizmodo.com",
-    },
     author: "Margherita Bassi",
     title: "Nature-Inspired Breakthrough Yields Thinnest 3D-Printed Fibers Yet",
     description:
@@ -136,10 +111,7 @@ module.exports = [
     keyword: "3d print",
   },
   {
-    source: {
-      id: null,
-      name: "Hackaday",
-    },
+    source: "Hackaday",
     author: "Bryan Cockfield",
     title: "Parametric Design Process Produces Unique Speakers",
     description:

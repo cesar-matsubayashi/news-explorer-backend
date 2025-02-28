@@ -22,68 +22,26 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await User.deleteMany({});
-  await Article.deleteMany({});
   mongoose.disconnect();
 });
 
 describe("Requests article endpoint", () => {
-  const {
-    keyword,
-    title,
-    description,
-    content,
-    publishedAt,
-    source,
-    author,
-    url,
-    urlToImage,
-  } = articlefixtures[1];
+  afterEach(async () => await Article.deleteMany({}));
   it("POST /articles should create a article", async () => {
     return request
       .post("/articles")
       .set("Authorization", token)
-      .send({
-        keyword,
-        title,
-        description,
-        content,
-        publishedAt,
-        source: source.name,
-        author,
-        url,
-        urlToImage,
-      })
+      .send(articlefixtures[0])
       .then((response) => {
         expect(response.status).toBe(200);
-        expect(response._body).toMatchObject({
-          keyword,
-          title,
-          description,
-          content,
-          publishedAt,
-          source: source.name,
-          author,
-          url,
-          urlToImage,
-          owner: owner._id,
-        });
+        expect(response._body).toMatchObject(articlefixtures[0]);
       });
   });
 
   it("POST /articles should throw authentication error", async () => {
     return request
       .post("/articles")
-      .send({
-        keyword,
-        title,
-        description,
-        content,
-        publishedAt,
-        source: source.name,
-        author,
-        url,
-        urlToImage,
-      })
+      .send(articlefixtures[0])
       .then((response) => {
         expect(response.status).toBe(401);
         expect(response._body).toMatchObject({
@@ -93,19 +51,13 @@ describe("Requests article endpoint", () => {
   });
 
   it("POST /articles should throw keyword is required", async () => {
+    const article = { ...articlefixtures[0] };
+    delete article.keyword;
+
     return request
       .post("/articles")
       .set("Authorization", token)
-      .send({
-        title,
-        description,
-        content,
-        publishedAt,
-        source: source.name,
-        author,
-        url,
-        urlToImage,
-      })
+      .send(article)
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response._body.message).toBe("Validation failed");
@@ -116,19 +68,13 @@ describe("Requests article endpoint", () => {
   });
 
   it("POST /articles should throw title is required", async () => {
+    const article = { ...articlefixtures[0] };
+    delete article.title;
+
     return request
       .post("/articles")
       .set("Authorization", token)
-      .send({
-        keyword,
-        description,
-        content,
-        publishedAt,
-        source: source.name,
-        author,
-        url,
-        urlToImage,
-      })
+      .send(article)
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response._body.message).toBe("Validation failed");
@@ -139,19 +85,13 @@ describe("Requests article endpoint", () => {
   });
 
   it("POST /articles should throw description is required", async () => {
+    const article = { ...articlefixtures[0] };
+    delete article.description;
+
     return request
       .post("/articles")
       .set("Authorization", token)
-      .send({
-        keyword,
-        title,
-        content,
-        publishedAt,
-        source: source.name,
-        author,
-        url,
-        urlToImage,
-      })
+      .send(article)
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response._body.message).toBe("Validation failed");
@@ -162,19 +102,13 @@ describe("Requests article endpoint", () => {
   });
 
   it("POST /articles should throw content is required", async () => {
+    const article = { ...articlefixtures[0] };
+    delete article.content;
+
     return request
       .post("/articles")
       .set("Authorization", token)
-      .send({
-        keyword,
-        title,
-        description,
-        publishedAt,
-        source: source.name,
-        author,
-        url,
-        urlToImage,
-      })
+      .send(article)
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response._body.message).toBe("Validation failed");
@@ -185,19 +119,13 @@ describe("Requests article endpoint", () => {
   });
 
   it("POST /articles should throw publishedAt is required", async () => {
+    const article = { ...articlefixtures[0] };
+    delete article.publishedAt;
+
     return request
       .post("/articles")
       .set("Authorization", token)
-      .send({
-        keyword,
-        title,
-        description,
-        content,
-        source: source.name,
-        author,
-        url,
-        urlToImage,
-      })
+      .send(article)
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response._body.message).toBe("Validation failed");
@@ -208,19 +136,13 @@ describe("Requests article endpoint", () => {
   });
 
   it("POST /articles should throw source is required", async () => {
+    const article = { ...articlefixtures[0] };
+    delete article.source;
+
     return request
       .post("/articles")
       .set("Authorization", token)
-      .send({
-        keyword,
-        title,
-        description,
-        content,
-        publishedAt,
-        author,
-        url,
-        urlToImage,
-      })
+      .send(article)
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response._body.message).toBe("Validation failed");
@@ -231,19 +153,13 @@ describe("Requests article endpoint", () => {
   });
 
   it("POST /articles should throw author is required", async () => {
+    const article = { ...articlefixtures[0] };
+    delete article.author;
+
     return request
       .post("/articles")
       .set("Authorization", token)
-      .send({
-        keyword,
-        title,
-        description,
-        content,
-        publishedAt,
-        source: source.name,
-        url,
-        urlToImage,
-      })
+      .send(article)
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response._body.message).toBe("Validation failed");
@@ -254,19 +170,13 @@ describe("Requests article endpoint", () => {
   });
 
   it("POST /articles should throw url is required", async () => {
+    const article = { ...articlefixtures[0] };
+    delete article.url;
+
     return request
       .post("/articles")
       .set("Authorization", token)
-      .send({
-        keyword,
-        title,
-        description,
-        content,
-        publishedAt,
-        source: source.name,
-        author,
-        urlToImage,
-      })
+      .send(article)
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response._body.message).toBe("Validation failed");
@@ -277,20 +187,13 @@ describe("Requests article endpoint", () => {
   });
 
   it("POST /articles should throw url is invalid", async () => {
+    const article = { ...articlefixtures[0] };
+    article.url = "bad url";
+
     return request
       .post("/articles")
       .set("Authorization", token)
-      .send({
-        keyword,
-        title,
-        description,
-        content,
-        publishedAt,
-        source: source.name,
-        author,
-        url: "bad url",
-        urlToImage,
-      })
+      .send(article)
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response._body.message).toBe("Validation failed");
@@ -301,19 +204,13 @@ describe("Requests article endpoint", () => {
   });
 
   it("POST /articles should throw urlToImage is required", async () => {
+    const article = { ...articlefixtures[0] };
+    delete article.urlToImage;
+
     return request
       .post("/articles")
       .set("Authorization", token)
-      .send({
-        keyword,
-        title,
-        description,
-        content,
-        publishedAt,
-        source: source.name,
-        author,
-        url,
-      })
+      .send(article)
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response._body.message).toBe("Validation failed");
@@ -324,20 +221,13 @@ describe("Requests article endpoint", () => {
   });
 
   it("POST /articles should throw urlToImage is invalid", async () => {
+    const article = { ...articlefixtures[0] };
+    article.urlToImage = "bad url";
+
     return request
       .post("/articles")
       .set("Authorization", token)
-      .send({
-        keyword,
-        title,
-        description,
-        content,
-        publishedAt,
-        source: source.name,
-        author,
-        url,
-        urlToImage: "bad url",
-      })
+      .send(article)
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response._body.message).toBe("Validation failed");
@@ -345,5 +235,80 @@ describe("Requests article endpoint", () => {
           '"urlToImage" must be a valid uri'
         );
       });
+  });
+
+  it("GET /articles should return all article from auth user", async () => {
+    await request
+      .post("/articles")
+      .set("Authorization", token)
+      .send(articlefixtures[0])
+      .then((response) => {
+        expect(response.status).toBe(200);
+        expect(response._body).toMatchObject(articlefixtures[0]);
+      });
+
+    await request
+      .post("/articles")
+      .set("Authorization", token)
+      .send(articlefixtures[1])
+      .then((response) => {
+        expect(response.status).toBe(200);
+        expect(response._body).toMatchObject(articlefixtures[1]);
+      });
+
+    return request
+      .get("/articles")
+      .set("Authorization", token)
+      .then((response) => {
+        expect(response.status).toBe(200);
+        expect(response._body).toMatchObject([
+          articlefixtures[0],
+          articlefixtures[1],
+        ]);
+      });
+  });
+  it("GET /articles should should throw not found error", async () => {
+    await request
+      .post("/articles")
+      .set("Authorization", token)
+      .send(articlefixtures[0])
+      .then((response) => {
+        expect(response.status).toBe(200);
+        expect(response._body).toMatchObject(articlefixtures[0]);
+      });
+
+    const { email, password, name } = userFixtures[0].user;
+
+    await request.post("/users").send({ email, password, name });
+    const response = await request
+      .post("/users/login")
+      .send({ email, password });
+
+    const token2 = response._body.token;
+
+    return request
+      .get("/articles")
+      .set("Authorization", token2)
+      .then((response) => {
+        expect(response.status).toBe(404);
+      });
+  });
+
+  it("GET /articles should should throw authentication error", async () => {
+    await request
+      .post("/articles")
+      .set("Authorization", token)
+      .send(articlefixtures[0])
+      .then((response) => {
+        expect(response.status).toBe(200);
+        expect(response._body).toMatchObject(articlefixtures[0]);
+      });
+
+    return request.get("/articles").then((response) => {
+      expect(response.status).toBe(401);
+      expect(response._body).toMatchObject({
+        message: "Autorização necessária",
+      });
+    });
   });
 });

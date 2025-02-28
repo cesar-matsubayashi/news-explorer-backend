@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const validator = require("validator");
 const { celebrate, Joi } = require("celebrate");
-const { creatArticle } = require("../controllers/article");
+const { creatArticle, getArticles } = require("../controllers/article");
 
 const validateUrl = (value, helpers) => {
   if (validator.isURL(value, { require_protocol: true })) {
@@ -28,5 +28,7 @@ router.post(
   }),
   creatArticle
 );
+
+router.get("/", getArticles);
 
 module.exports = router;

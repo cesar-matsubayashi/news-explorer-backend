@@ -37,3 +37,14 @@ module.exports.creatArticle = (req, res, next) => {
       return next();
     });
 };
+
+module.exports.getArticles = (req, res, next) => {
+  const owner = req.user._id;
+
+  Article.find({ owner })
+    .orFail(() => {
+      throw new NotFoundError("Recurso requisitado não encontrado");
+    })
+    .then((article) => res.send(article))
+    .catch(next);
+};
