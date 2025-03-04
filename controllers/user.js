@@ -23,6 +23,9 @@ module.exports.createUser = (req, res, next) => {
       .then((user) => res.send(user))
       .catch((err) => {
         if (err.name === "ValidationError") {
+          if (err.errors.email.kind === "unique") {
+            return next(new ValidationError(err.errors.email.message));
+          }
           return next(new ValidationError(err.message));
         }
 

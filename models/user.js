@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
 const AuthError = require("../errors/AuthError");
@@ -50,4 +51,7 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(
     });
 };
 
+userSchema.plugin(uniqueValidator, {
+  message: "Este e-mail não está disponível",
+});
 module.exports = mongoose.model("user", userSchema);
