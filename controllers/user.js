@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const NotFoundError = require("../errors/NotFoundError");
 const ValidationError = require("../errors/ValidationError");
+const AuthError = require("../errors/AuthError");
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -59,6 +60,10 @@ module.exports.login = (req, res, next) => {
     .catch((err) => {
       if (err.name === "ValidationError") {
         return next(new ValidationError(err.message));
+      }
+
+      if (err.message === "E-mail ou senha incorretos") {
+        return next(new AuthError(err.message));
       }
 
       return next();
