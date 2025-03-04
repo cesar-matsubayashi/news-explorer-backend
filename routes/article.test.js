@@ -66,7 +66,7 @@ describe("Requests article endpoint", () => {
         expect(response.status).toBe(400);
         expect(response.body.message).toBe("Validation failed");
         expect(response.body.validation.body.message).toBe(
-          "\"keyword\" is required"
+          '"keyword" is required'
         );
       });
   });
@@ -83,7 +83,7 @@ describe("Requests article endpoint", () => {
         expect(response.status).toBe(400);
         expect(response.body.message).toBe("Validation failed");
         expect(response.body.validation.body.message).toBe(
-          "\"title\" is required"
+          '"title" is required'
         );
       });
   });
@@ -100,7 +100,7 @@ describe("Requests article endpoint", () => {
         expect(response.status).toBe(400);
         expect(response.body.message).toBe("Validation failed");
         expect(response.body.validation.body.message).toBe(
-          "\"description\" is required"
+          '"description" is required'
         );
       });
   });
@@ -117,7 +117,7 @@ describe("Requests article endpoint", () => {
         expect(response.status).toBe(400);
         expect(response.body.message).toBe("Validation failed");
         expect(response.body.validation.body.message).toBe(
-          "\"content\" is required"
+          '"content" is required'
         );
       });
   });
@@ -134,7 +134,7 @@ describe("Requests article endpoint", () => {
         expect(response.status).toBe(400);
         expect(response.body.message).toBe("Validation failed");
         expect(response.body.validation.body.message).toBe(
-          "\"publishedAt\" is required"
+          '"publishedAt" is required'
         );
       });
   });
@@ -151,7 +151,7 @@ describe("Requests article endpoint", () => {
         expect(response.status).toBe(400);
         expect(response.body.message).toBe("Validation failed");
         expect(response.body.validation.body.message).toBe(
-          "\"source\" is required"
+          '"source" is required'
         );
       });
   });
@@ -168,7 +168,7 @@ describe("Requests article endpoint", () => {
         expect(response.status).toBe(400);
         expect(response.body.message).toBe("Validation failed");
         expect(response.body.validation.body.message).toBe(
-          "\"author\" is required"
+          '"author" is required'
         );
       });
   });
@@ -184,7 +184,7 @@ describe("Requests article endpoint", () => {
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response.body.message).toBe("Validation failed");
-        expect(response.body.validation.body.message).toBe("\"url\" is required");
+        expect(response.body.validation.body.message).toBe('"url" is required');
       });
   });
 
@@ -200,7 +200,7 @@ describe("Requests article endpoint", () => {
         expect(response.status).toBe(400);
         expect(response.body.message).toBe("Validation failed");
         expect(response.body.validation.body.message).toBe(
-          "\"url\" must be a valid uri"
+          '"url" must be a valid uri'
         );
       });
   });
@@ -217,7 +217,7 @@ describe("Requests article endpoint", () => {
         expect(response.status).toBe(400);
         expect(response.body.message).toBe("Validation failed");
         expect(response.body.validation.body.message).toBe(
-          "\"urlToImage\" is required"
+          '"urlToImage" is required'
         );
       });
   });
@@ -234,7 +234,7 @@ describe("Requests article endpoint", () => {
         expect(response.status).toBe(400);
         expect(response.body.message).toBe("Validation failed");
         expect(response.body.validation.body.message).toBe(
-          "\"urlToImage\" must be a valid uri"
+          '"urlToImage" must be a valid uri'
         );
       });
   });
@@ -271,7 +271,7 @@ describe("Requests article endpoint", () => {
         expect(response.body).toMatchObject([returnArticle, returnArticle2]);
       });
   });
-  it("GET /articles should should throw not found error", async () => {
+  it("GET /articles should should return 204 no content", async () => {
     const returnArticle = { ...articlefixtures[0] };
     returnArticle.owner = owner._id;
 
@@ -295,7 +295,8 @@ describe("Requests article endpoint", () => {
       .get("/articles")
       .set("Authorization", token2)
       .then((response) => {
-        expect(response.status).toBe(404);
+        expect(response.status).toBe(204);
+        expect(response.body).toStrictEqual({});
       });
   });
 
@@ -370,12 +371,12 @@ describe("Requests article endpoint", () => {
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response.body.validation.params.message).toBe(
-          "\"articleId\" length must be 24 characters long"
+          '"articleId" length must be 24 characters long'
         );
       });
   });
 
-  it("DELETE /articles/:articleId should throw not found error", async () => {
+  it("DELETE /articles/:articleId should return 204 no content", async () => {
     const returnArticle = { ...articlefixtures[0] };
     returnArticle.owner = owner._id;
 
@@ -400,7 +401,8 @@ describe("Requests article endpoint", () => {
       .delete(`/articles/${wrongArticleId}`)
       .set("Authorization", token)
       .then((response) => {
-        expect(response.status).toBe(404);
+        expect(response.status).toBe(204);
+        expect(response.body).toStrictEqual({});
       });
   });
 

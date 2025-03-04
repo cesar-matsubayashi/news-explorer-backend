@@ -2,6 +2,7 @@ const NotFoundError = require("../errors/NotFoundError");
 const ValidationError = require("../errors/ValidationError");
 const ForbiddenError = require("../errors/ForbiddenError");
 const Article = require("../models/article");
+const NoContent = require("../errors/NoContent");
 
 module.exports.creatArticle = (req, res, next) => {
   const {
@@ -42,18 +43,39 @@ module.exports.creatArticle = (req, res, next) => {
 module.exports.getArticles = (req, res, next) => {
   const owner = req.user._id;
 
+  // Article.find({ owner })
+  //   .orFail(() => Promise.reject(new Error("NoContent")))
+  //   .then((article) => {
+  //     res.send(article);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //     if (err.message === "NoContent") {
+  //       return res.status(204).send([]);
+  //     }
+
+  //     next(err);
+  //   });
+
   Article.find({ owner })
     .orFail(() => {
-      throw new NotFoundError("Recurso requisitado não encontrado");
+      throw new NoContent("NoContent");
     })
-    .then((article) => res.send(article))
-    .catch(next);
+    .then((articles) => {
+      res.send(articles);
+    })
+    .catch((err) => {
+      if (err.message === "NoContent") {
+        return res.status(204).end();
+      }
+      next(err);
+    });
 };
 
 module.exports.deleteArticle = (req, res, next) => {
   Article.findById(req.params.articleId)
     .orFail(() => {
-      throw new NotFoundError("Recurso requisitado não encontrado");
+      throw new NoContent("NoContent");
     })
     .then((article) => {
       if (article.owner.toString() !== req.user._id) {
@@ -65,5 +87,10 @@ module.exports.deleteArticle = (req, res, next) => {
     .then((deleted) => {
       res.send(deleted);
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.message === "NoContent") {
+        return res.status(204).end();
+      }
+      next(err);
+    });
 };
