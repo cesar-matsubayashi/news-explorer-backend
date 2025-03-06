@@ -1,5 +1,5 @@
 const express = require("express");
-require('dotenv').config()
+require("dotenv").config();
 const mongoose = require("mongoose");
 const { errors } = require("celebrate");
 const userAuth = require("./routes/auth");
@@ -8,6 +8,7 @@ const articles = require("./routes/article");
 const auth = require("./middleware/auth");
 const { requestLogger, errorLogger } = require("./middleware/logger");
 const cors = require("cors");
+const base64 = require("./middleware/base64");
 
 const { PORT = 3000, NODE_ENV, DB_URI } = process.env;
 const app = express();
@@ -23,6 +24,7 @@ if (NODE_ENV === "test") {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(base64);
 
 app.use(requestLogger);
 
